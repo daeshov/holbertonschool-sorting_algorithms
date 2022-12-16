@@ -1,1 +1,1 @@
-# holbertonschool-sorting_algorithmsv
+# holbertonschool-sorting_algorithms
