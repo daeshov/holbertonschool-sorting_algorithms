@@ -1,69 +1,81 @@
 #include "sort.h"
-/**
- * partition - partitions the array
- * @array: array to take in
- * @start: start of array;
- * @end: end of array
- * @size: full size of array
- * Return: position of pivot
- */
-int partition(int *array, int start, int end, int size)
-{
-	int pivot = array[end];
-	int i = start, j, temp;
 
-	for (j = start; j < end; j++)
+/**
+* lomuto - Lomuto partition scheme for quicksort algorithm
+*
+* @a: Array to sort
+* @l: lowest index of array
+* @h: highest index of array
+*
+* Return: index of pivot
+*/
+
+int lomuto(int *a, int l, int h)
+{
+	int p, i, j, t;
+	static int size, k;
+
+	if (k == 0)
+		size = h + 1, k++;
+	p = a[h];
+	i = l;
+	for (j = l; j < h; j++)
 	{
-		if (array[j] <= pivot)
+		if (a[j] <= p)
 		{
 			if (i != j)
 			{
-				temp = array[i];
-				array[i] = array[j];
-				array[j] = temp;
-				print_array(array, size);
+				t = a[i];
+				a[i] = a[j];
+				a[j] = t;
+				print_array(a, size);
 			}
 			i++;
 		}
 	}
-	if (i != end)
+	if (i != h)
 	{
-		temp = array[i];
-		array[i] = array[end];
-		array[end] = temp;
-		print_array(array, size);
+		t = a[i];
+		a[i] = a[h];
+		a[h] = t;
+		print_array(a, size);
 	}
-	printf("return i=%d\n", i);
+
 	return (i);
 }
-/**
- * quickSort - quick sorts with recursion
- * @array: array to sort through
- * @start: start of array or subarray
- * @end: end of array or subarray
- * @size: size of full array
- */
-void quickSort(int *array, int start, int end, int size)
-{
-	int pivot;
 
-	if (start < end)
+/**
+* qs - Quicksort recursive function
+*
+* @a: array to sort
+* @l: lowest index
+* @h: highest index
+*/
+
+void qs(int *a, int l, int h)
+{
+	int p;
+
+	if (l < h)
 	{
-		pivot = partition(array, start, end, size);
-		printf("first recursive, start [%d] to pivot-1[%d]\n", start, pivot - 1);
-		quickSort(array, start, pivot - 1, size);
-		printf("second recursive, pivot+1 [%d] to end [%d]\n", pivot + 1, end);
-		quickSort(array, pivot + 1, end, size);
+		p = lomuto(a, l, h);
+		qs(a, l, p - 1);
+		qs(a, p + 1, h);
 	}
 }
+
+
 /**
- * quick_sort - quick sorts an array
- * @array: array to sort
- * @size: size of array
- */
+* quick_sort - sorts array using quicksort algorithm
+*
+* @array: Array to sort
+* @size: Size of array to sort
+*/
+
 void quick_sort(int *array, size_t size)
 {
-	if (array == NULL || size < 2)
+	if (size < 2)
 		return;
-	quickSort(array, 0, size - 1, size);
+
+	qs(array, 0, size - 1);
 }
