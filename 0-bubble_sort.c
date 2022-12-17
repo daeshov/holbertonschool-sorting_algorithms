@@ -31,6 +31,5 @@ void bubble_sort(int *array, size_t size)
 		if (!swap)
 			break;
 	}
-	printf("\n");
 }
 
