@@ -1,50 +1,34 @@
 #include "sort.h"
-
 /**
- * insertion_sort_list - inserts right unsorted side into left sorted side
- * @list: doubly linked list to sort
- *
+ * selection_sort - sorts all selecty like
+ * @array: array to sort
+ * @size: size of array
  */
-void insertion_sort_list(listint_t **list)
+void selection_sort(int *array, size_t size)
 {
-	listint_t *c, *p, *nextnode;
+	int index = 0, min, tmp;
+	size_t i, j;
 
-	if (list == NULL || !(*list) || (*list)->next == NULL)
+	if (array == NULL || size < 2)
 		return;
-	c = (*list)->next;
-	nextnode = c->next;
-	while (c)
+
+	for (i = 0; i < size - 1; i++)
 	{
-		if (c->n < c->prev->n)
+		min = array[i];
+		for (j = i + 1; j < size; j++)
 		{
-			p = c->prev;
-			while (p && (c->n < p->n))
+			if (array[j] < min)
 			{
-				if (!(p->prev))
-				{
-					p->prev = c;
-					c->prev->next = c->next;
-					if (c->next)
-						c->next->prev = c->prev;
-					c->next = p;
-					c->prev = NULL;
-					*list = c;
-				}
-				else
-				{
-					c->prev->next = c->next;
-					if (c->next)
-						c->next->prev = c->prev;
-					p->prev->next = c;
-					c->prev = p->prev;
-					p->prev = c;
-					c->next = p;
-				}
-				print_list(*list);
-				p = c->prev;
+				min = array[j];
+				index = j;
 			}
 		}
-		c = nextnode;
-		c ? (nextnode = c->next) : (nextnode = NULL);
+		if (min != array[i])
+		{
+			tmp = array[i];
+			array[i] = array[index];
+			array[index] = tmp;
+			print_array(array, size);
+		}
 	}
-}
+}}
